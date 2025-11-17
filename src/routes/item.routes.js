@@ -11,16 +11,17 @@ import {
 } from "../controllers/item.controller.js";
 import { uploadSingle } from "../config/multer.js";
 import { authMiddleware, authorizeRoles } from "../../../auth-service/middleware/authMiddleware.js";
+import { checkRole, verifyToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/addItem", authMiddleware, authorizeRoles("owner"), uploadSingle, createItem);
-router.put("/editItem/:itemId", authMiddleware, authorizeRoles("owner"), uploadSingle, EditItem);
-router.get("/getItems", authMiddleware, authorizeRoles("owner"), getItemsByShop);
-router.get("/getItem/:itemId", authMiddleware, authorizeRoles("owner"), getItem);
-router.delete("/deleteItem/:itemId", authMiddleware, authorizeRoles("owner"), deleteItem);
-router.get("/getItems/:city",authMiddleware,authorizeRoles("user"),getAllItemsOfCity);
-router.get("/getAllItems", authMiddleware, authorizeRoles("user"), getAllItems);
+router.post("/addItem", verifyToken, checkRole("owner"), uploadSingle, createItem);
+router.put("/editItem/:itemId", verifyToken, checkRole("owner"), uploadSingle, EditItem);
+router.get("/getItems", verifyToken, checkRole("owner"), getItemsByShop);
+router.get("/getItem/:itemId", verifyToken, checkRole("owner"), getItem);
+router.delete("/deleteItem/:itemId", verifyToken, checkRole("owner"), deleteItem);
+router.get("/getItems/:city", verifyToken, checkRole("user"), getAllItemsOfCity);
+router.get("/getAllItems", verifyToken, checkRole("user"), getAllItems);
 
 // Internal route for updating ratings
 router.patch("/:itemId/rating", updateItemRating);
