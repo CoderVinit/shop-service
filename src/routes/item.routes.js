@@ -10,7 +10,6 @@ import {
   updateItemRating
 } from "../controllers/item.controller.js";
 import { uploadSingle } from "../config/multer.js";
-import { authMiddleware, authorizeRoles } from "../../../auth-service/middleware/authMiddleware.js";
 import { checkRole, verifyToken } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
