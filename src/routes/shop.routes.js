@@ -10,9 +10,8 @@ import { uploadSingle } from "../config/multer.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, checkRole("owner"), uploadSingle, createAndEditShop);
-router.get("/owner", verifyToken, checkRole("owner"), getShopByOwner);
-router.get("/city/:city", getShopByCity);
-router.get("/:shopId", getShopById);
+router.post("/create-edit", verifyToken, checkRole("owner"), uploadSingle, createAndEditShop);
+router.get("/get-shop", verifyToken, checkRole("owner"), getShopByOwner);
+router.get("/get-shop-by-city/:city", verifyToken, checkRole("user"), getShopByCity);
 
 export default router;
